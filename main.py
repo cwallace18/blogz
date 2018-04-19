@@ -10,20 +10,25 @@ app.secret_key = 'i7y8gjh45'
 
 class Blog(db.Model):
 
-    id = db.Column(db.Integer, primary_key=True)
-    blog_title = db.Column(db.String(120))
-    blog_text = db.Column(db.String(10000))
+    id = db.Column(db.Integer, primary_key=(True))
+    title = db.Column(db.String(120))
+    body = db.Column(db.String(10000))
 
-    def __init__(self,title, text):
-        self.blog_title = blog_title
-        self.blog_text = blog_text
+    def __init__(self, title, body):
+        self.title = title
+        self.body = body
+
+
+@app.route('/')
+def index():
+    return redirect ('/blog')
 
 @app.route('/blog', methods=['GET', 'POST'])
-def index():
+def blog():
     blogs = Blog.query.all()
 
     if 'id' in request.args:
-        blog_id = request.args['id']
+        blog_id = request.args.get('id')
         blog_post = Blog.query.get(blog_id)
         return render_template('post.html', blog=blog_post)
 
@@ -33,19 +38,19 @@ def index():
 def add_blog():
     if request.method == 'POST':
         blog_title = request.form['blog_title']
-        blog_text = request.form['blog_text']
+        blog_body = request.form['blog_body']
 
         title_error = ''
-        text_error = ''
+        body_error = ''
 
         if blog_title == "":
             title_error = "Please enter a title."
-        if blog_text == "":
-            text_error = "Please enter text."
+        if blog_body == "":
+            body_error = "Please enter body."
 
-        if not title_error and not text_error:
+        if not title_error and not body_error:
 
-            new_blog = Blog(title, text)
+            new_blog = Blog(blog_title, blog_body)
             db.session.add(new_blog)
             db.session.commit()
             id_parameter = new_blog.id
@@ -55,8 +60,8 @@ def add_blog():
         else:
             return render_template('newpost.html',
             title_error=title_error,
-            text_error=text_error,
-            blog_text=blog_text,
+            body_error=body_error,
+            blog_body=blog_body,
             blog_title=blog_title)
 
     else: 
