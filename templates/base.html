@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-
 <html>
+	<head>
+		<title> {{title}} </title>
+		<style>
+			*{text-align: center; font-family: Arial, Helvetica, sans-serif; background-color: rgb(190, 203, 214);}	
+			.error {color: red;}
+			a {text-decoration: none; color: rgb(27, 97, 147);}
+			.subscript {font-size: 8pt;}
+			div {margin-right: 20%; margin-left: 20%; margin-bottom:10px }
+		</style>
+	</head>
 
-    <head>
-        <title>Build a Blog</title>
-    </head>
-
-    <body>
-        <div>
-            <a href="/blog">Main Page</a><a href='/newpost'>Add a Blog</a>
-        </div>
-
-        {% block content %}
-        {% endblock %}
-
-    </body>
+	<body>
+		<nav style="text-align:left; float:left; margin-right: 5%; margin-left: 5%; margin-top:10px;">
+			<a href = "/" > Home</a> |
+			<a href = "/blog" > All Posts</a> |
+			<a href = "/newpost" > New Post</a>
+		</nav>
+		<nav style="text-align:right; float:right; margin-right: 5%; margin-left: 5%; margin-top:10px;">
+			<a href = "/login" > Log In</a> |
+			<a href = "/logout" > Log Out</a>
+		</nav>
+		<div>
+			{% block content %}
+			{% endblock %}
+		</div>
+	</body>
 </html>
